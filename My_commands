@@ -1,0 +1,143 @@
+https://www.pnas.org/content/118/20/e2015159118
+
+pedro paper
+
+tar -xzf signalp-4.1g.Linux.tar.gz
+
+
+https://github.com/pedronachtigall/ToxCodAn/raw/master/models.zip
+
+https://broadinstitute.github.io/2020_scWorkshop/data-wrangling-scrnaseq.html
+
+
+2001201
+
+
+export PATH=$PATH:/home/jyoti.k/Snake/ncbi-blast-2.11.0+/bin/
+export PATH=$PATH:/home/jyoti.k/Snake/signalp-4.1/
+export PATH=$PATH:/home/jyoti.k/Snake/ToxCodAn/bin/
+export PATH=$PATH:/home/jyoti.k/Snake/CodAn/bin/
+export PATH=$PATH:/home/jyoti.k/Snake/Crotalus_cerastes/sratoolkit.2.11.0-centos_linux64/bin/
+export PATH=$PATH:/home/jyoti.k/Snake/Crotalus_cerastes/SRR6768682/01_raw/TrimGalore-0.6.6/
+export PATH=$PATH:/home/jyoti.k/Snake/Crotalus_cerastes/SRR6768682/PEAR/pear-0.9.11-linux-x86_64/bin/
+export PATH=$PATH:/home/jyoti.k/Snake/Crotalus_cerastes/SRR6768682/trinityrnaseq-v2.12.0
+export PATH=$PATH:/home/jyoti.k/Snake/Crotalus_cerastes/SRR6768682/trinityrnaseq-v2.12.0/trinity-plugins/
+
+
+
+ToxCodAn provides precise annotation of toxins present in the transcriptome of venom glands of snakes.
+run time (⁠>20x faster), 
+coding sequence prediction (⁠>3x more accurate)
+number of toxins predicted (generating >4x less false positives).
+
+
+
+Protocol followed by toxcodan:
+1. Pre-filtering step
+Blast search against a toxinDB database which has curated toxin protein sequences from Uniprot
+
+
+---------------------------------------------------------------------------
+The big tutorial
+Fastqc files from Crotalus cerastes (sidewinder rattlesnake)
+1. Fastqc
+2. Trim galore: filtering reads < phred quality 5 and < 75 bases in length
+3. PEAR (Paired end read manager): To get longer (super) reads for better assembly
+4. Extender, SeqMan NGen , Trinity : Transcriptome Assembly
+5. Fasta renamer & cd hit : Combining Assemblies and removing transcripts with 100% identity to reduce redundancy & computational load
+6. Toxcodan : Transcriptome Annotation : has multiple steps; should be able to fetch results for putative toxins by EOD.
+ 
+Extender : have to contact the author for the accesss, I have mailed him. By that time running without extender. 
+
+https://github.com/pedronachtigall/CodAn/tree/master/tutorial
+
+--------------------------------------------------------------------------------
+
+codan.py -t transcripts.fa -m VERT_full
+
+
+Miniconda sh file
+sh Miniconda3-py39_4.9.2-Linux-x86_64.sh
+
+
+source ~/.bashrc
+
+
+Inside conda 
+
+conda config --add channels defaults
+conda config --add channels bioconda
+conda config --add channels conda-forge
+
+conda activate toxcodan_env
+
+conda create -n toxcodan_env python=3.6 biopython=1.69 perl perl-bioperl perl-mce blast hmmer
+
+
+
+cpan CPAN
+
+
+cpan
+install MCE
+install MCE::Mutex
+install Bio::SeqIO
+install Bio::DB::Fasta
+exit
+
+Bundle::BioPerl
+
+sudo apt-get install build-essential
+
+conda install -c conda-forge -c bioconda snippy
+
+https://docs.conda.io/en/latest/miniconda.html#linux-installers
+
+cat /etc/lsb-release
+DISTRIB_ID=Ubuntu
+DISTRIB_RELEASE=20.04
+DISTRIB_CODENAME=focal
+DISTRIB_DESCRIPTION="Ubuntu 20.04.2 LTS"
+
+--------------
+more /etc/redhat-release
+CentOS Linux release 7.6.1810 (Core)
+
+
+/lib64/libstdc++.so.6:
+
+
+/home/jyoti.k/anaconda3/envs/toxcodan_env/bin/x86_64-conda-linux-gnu-cc
+
+collect2: error: ld returned 1 exit status
+configure: error: I suspect your system does not have 32-bit development libraries (libc and headers). If you have them, rerun configure with --enable-multilib. If you do not have them, and want to build a 64-bit-only compiler, rerun configure with --disable-multilib.
+(toxcodan_env) -bash-4.2$ ./configure --disable-multilib
+
+
+--------------------------------------------------
+ERROR!!!!!!!
+
+
+./tops-viterbi_decoding: /lib64/libstdc++.so.6: version `GLIBCXX_3.4.20' not found (required by ./tops-viterbi_decoding)
+./tops-viterbi_decoding: /lib64/libstdc++.so.6: version `GLIBCXX_3.4.21' not found (required by ./tops-viterbi_decoding)
+(toxcodan_env) -bash-4.2$
+
+
+Can't locate Bio/SeqIO.pm in @INC (you may need to install the Bio::SeqIO module) 
+
+(@INC contains: 
+/root/miniconda3/envs/toxcodan_env/lib/site_perl/5.26.2/x86_64-linux-thread-multi 
+/root/miniconda3/envs/toxcodan_env/lib/site_perl/5.26.2 
+/root/miniconda3/envs/toxcodan_env/lib/5.26.2/x86_64-linux-thread-multi 
+/root/miniconda3/envs/toxcodan_env/lib/5.26.2 .) at ./predict line 6.
+
+
+
+codan.py -t ../../transcripts.fa -m ../../VERT_full -o CodAn_final
+
+
+
+
+
+
+
